@@ -1,5 +1,5 @@
 CC = gcc # Compiler
-CFLAGS = -Wall -g -fno-stack-protector # Compiler flags
+CFLAGS = -Wall -g -z execstack -fno-stack-protector # Compiler flags
 TARGET = main # Executable name
 SRCS = main.c # Source files
 OBJS = $(SRCS:.c=.o) # Object files
