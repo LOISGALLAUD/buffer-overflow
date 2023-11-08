@@ -61,6 +61,29 @@ Then we can use the `disassemble` command to see the assembly code of the `main`
 (gdb) disas main
 ```
 
+Let's take a look at the assembly code and explain it to understand what's going on:
+
+```assembly
+0x0000000000001149 <+0>:    endbr64
+0x000000000000114d <+4>:    push   %rbp
+0x000000000000114e <+5>:    mov    %rsp,%rbp
+0x0000000000001151 <+8>:    sub    $0x210,%rsp
+0x0000000000001158 <+15>:   mov    %edi,-0x204(%rbp)
+0x000000000000115e <+21>:   mov    %rsi,-0x210(%rbp)
+0x0000000000001165 <+28>:   mov    -0x210(%rbp),%rax
+0x000000000000116c <+35>:   add    $0x8,%rax
+0x0000000000001170 <+39>:   mov    (%rax),%rdx
+0x0000000000001173 <+42>:   lea    -0x200(%rbp),%rax
+0x000000000000117a <+49>:   mov    %rdx,%rsi
+0x000000000000117d <+52>:   mov    %rax,%rdi
+0x0000000000001180 <+55>:   call   0x1050 <strcpy@plt>
+0x0000000000001185 <+60>:   mov    $0x0,%eax
+0x000000000000118a <+65>:   leave
+0x000000000000118b <+66>:   ret
+```
+
+- `0x0000000000001149 <+0>:    endbr64`: this is a security feature that prevents the program to jump to a random address. It is a 2 bytes instruction that is added by the compiler.
+
 ### Overflow the buffer
 
 Let's first try to overflow the buffer with a simple string:
