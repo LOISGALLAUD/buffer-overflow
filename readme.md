@@ -82,8 +82,6 @@ leave
 ret
 ```
 
-- `0x0000000000001149 <+0>:    endbr64`: this is a security feature that prevents the program to jump to a random address. It is a 2 bytes instruction that is added by the compiler.
-
 ### Overflow the buffer
 
 Let's first try to overflow the buffer with a simple string:
@@ -99,3 +97,27 @@ zsh: IOT instruction (core dumped)  ./main $(python -c 'print("\x41" * 505)')
 ![1699352151682](image/readme/1699352151682.png)
 
 The buffer is overflowed and the program crashed.
+
+### Find the return address
+
+When debugging with `gdb`, you can run the program with the `run` command. When the program crashes, it tells you where it crashed. In our case, it crashed at the return address of the function:
+
+![1700128132668](image/readme/1700128132668.png)
+
+We can see the 41s (A) that we put in the buffer. We can also see the return address of the function: `0x00007fffffffe1c8`. We can also see that the return address is 8 bytes long.
+
+Now we just need to put some malicious code at the end of the buffer and overwrite the return address with the address of the malicious code.
+
+### Malicious code
+
+![1700128287731](image/readme/1700128287731.png)
+
+The malicious code (shellcode) is written in hexadecimal. It is a shellcode that will open a shell in root mode.
+
+![1700127779527](image/readme/1700127779527.png)
+
+When executing ./main shellcode, we can see that the shellcode is executed by using the buffer overflow attack.
+
+## References
+
+- [Buffer Overflow Attack](https://www.youtube.com/watch?v=1S0aBV-Waeo)
