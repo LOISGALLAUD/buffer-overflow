@@ -2,6 +2,8 @@
 
 # Buffer Overflow Attack
 
+<img src="image/readme/1700847995100.png" alt="1700847995100" width="150" align="right"/>
+
 ## Context
 
 When program is runned by the OS, it is loaded into memory. The memory is divided into 4 segments:
